@@ -23,6 +23,30 @@
                <image>
                   <Image url="@../asset.img/music.png" />
                </image></ImageView>
+            <HBox fx:id="bxMusic" alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../asset.img/EQ_accent.gif" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../asset.img/EQ_accent.gif" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../asset.img/EQ_accent.gif" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="310.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../asset.img/EQ_accent.gif" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
       </StackPane>
    </center>
@@ -73,12 +97,12 @@
                         <Font name="Ubuntu" size="13.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="slrVolume" prefHeight="16.0" prefWidth="125.0">
+                  <Slider fx:id="slrVolume" onMouseEntered="#slrVolumeOnMouseEntered" onMouseExited="#slrVolumeOnMouseExited" prefHeight="16.0" prefWidth="125.0">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </Slider>
-                  <Button fx:id="btnBrowse" mnemonicParsing="false" onAction="#btnBrowseOnAction" prefHeight="24.0" prefWidth="112.0" style="-fx-background-color: lightblue;" text="BROWSE" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnBrowse" mnemonicParsing="false" onAction="#btnBrowseOnAction" onMouseEntered="#btnBrowseOnMouseEntered" onMouseExited="#btnBrowseOnMouseExited" prefHeight="24.0" prefWidth="112.0" style="-fx-background-color: lightblue;" text="BROWSE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>

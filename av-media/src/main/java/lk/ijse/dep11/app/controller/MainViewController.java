@@ -17,6 +17,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -43,10 +44,13 @@ public class MainViewController {
     public Button btnClose;
     public Button btnBackward;
     public Button btnForward;
+    public HBox bxMusic;
     MediaPlayer videoPlayer;
     MediaPlayer audioPlayer;
 
     public void initialize(){
+        bxMusic.setVisible(false);
+
         mvVideo.setViewOrder(1);
         imgBackground.setViewOrder(2);
 
@@ -67,20 +71,29 @@ public class MainViewController {
             buttons[i].setGraphic(imageView);
         }
 
+        DoubleProperty widthProperty = imgBackground.fitWidthProperty();
+        DoubleProperty heightProperty = imgBackground.fitHeightProperty();
+
+        widthProperty.bind(Bindings.selectDouble(imgBackground.sceneProperty(),"width"));
+        heightProperty.bind(Bindings.selectDouble(imgBackground.sceneProperty(),"height"));
+
 
 
     }
     public void btnBrowseOnAction(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().
-                add(new FileChooser.ExtensionFilter("Video File","*.mp4","*.mkv"));
-        fileChooser.setTitle("Open Video File");
-        File videoFile = fileChooser.showOpenDialog(root.getScene().getWindow());
+                addAll(new FileChooser.ExtensionFilter("Video File","*.mp4","*.mkv"),
+                            new FileChooser.ExtensionFilter("Audio File","*.mp3"));
+        fileChooser.setTitle("Open File");
+        File file = fileChooser.showOpenDialog(root.getScene().getWindow());
+        String[] resultFile = file.getAbsolutePath().split("/");
+        System.out.println(resultFile[resultFile.length - 1].matches(".mp3\b"));
 
-        if(videoFile != null){
+        if(file != null && !resultFile[resultFile.length - 1].matches(".mp3\b")){
             lblTitle.setVisible(true);
 
-            String[] path = videoFile.getAbsolutePath().split("/");
+            String[] path = file.getAbsolutePath().split("/");
             lblTitle.setText(path[path.length-1]);
             lblTitle.setTooltip(new Tooltip(path[path.length-1]));
 
@@ -89,7 +102,7 @@ public class MainViewController {
                 button.setDisable(false);
             }
 
-            Media media = new Media(videoFile.toURI().toString());
+            Media media = new Media(file.toURI().toString());
             videoPlayer = new MediaPlayer(media);
 
             DoubleProperty widthProperty = mvVideo.fitWidthProperty();
@@ -112,6 +125,14 @@ public class MainViewController {
                 public void run() {
                     Duration totalDuration = media.getDuration();
                     slrScroller.setMax(totalDuration.toSeconds());
+                }
+            });
+
+            slrVolume.setValue(videoPlayer.getVolume()*100);
+            slrVolume.valueProperty().addListener(new InvalidationListener() {
+                @Override
+                public void invalidated(Observable observable) {
+                    videoPlayer.setVolume(slrVolume.getValue()/100);
                 }
             });
 
@@ -246,6 +267,25 @@ public class MainViewController {
     }
 
 
+    public void slrVolumeOnMouseEntered(MouseEvent mouseEvent) {
+        slrVolume.setScaleX(1.2);
+        slrVolume.setScaleY(1.2);
+    }
+
+    public void slrVolumeOnMouseExited(MouseEvent mouseEvent) {
+        slrVolume.setScaleX(1);
+        slrVolume.setScaleY(1);
+    }
+
+    public void btnBrowseOnMouseEntered(MouseEvent mouseEvent) {
+        btnBrowse.setScaleX(1.2);
+        btnBrowse.setScaleY(1.2);
+    }
+
+    public void btnBrowseOnMouseExited(MouseEvent mouseEvent) {
+        btnBrowse.setScaleY(1);
+        btnBrowse.setScaleX(1);
+    }
 }
 
 

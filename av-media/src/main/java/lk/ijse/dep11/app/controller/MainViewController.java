@@ -26,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class MainViewController {
     public BorderPane root;
@@ -49,7 +50,7 @@ public class MainViewController {
     MediaPlayer audioPlayer;
 
     public void initialize(){
-        bxMusic.setVisible(false);
+        imgBackground.setVisible(false);
 
         mvVideo.setViewOrder(1);
         imgBackground.setViewOrder(2);
@@ -88,9 +89,10 @@ public class MainViewController {
         fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
         String[] resultFile = file.getAbsolutePath().split("/");
-        System.out.println(resultFile[resultFile.length - 1].matches(".mp3\b"));
 
-        if(file != null && !resultFile[resultFile.length - 1].matches(".mp3\b")){
+
+        if(file.getAbsolutePath().matches("^.*\\.(mp4)$")) bxMusic.setVisible(false);
+        if(file != null){
             lblTitle.setVisible(true);
 
             String[] path = file.getAbsolutePath().split("/");

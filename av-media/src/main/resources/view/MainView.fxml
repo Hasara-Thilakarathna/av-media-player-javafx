@@ -23,7 +23,7 @@
                <image>
                   <Image url="@../asset.img/music.png" />
                </image></ImageView>
-            <HBox fx:id="bxMusic" alignment="CENTER">
+            <HBox fx:id="bxMusic" alignment="CENTER" StackPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -51,35 +51,27 @@
       </StackPane>
    </center>
    <top>
-      <AnchorPane prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="51.0" prefWidth="653.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnClose" layoutX="573.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnCloseOnAction" onMouseMoved="#btnCloseOnMouseMoved" style="-fx-background-color: red; -fx-opacity: 0.7;" text="X" textFill="WHITE" AnchorPane.rightAnchor="2.0" />
-            <StackPane layoutX="14.0" layoutY="4.0" prefHeight="74.0" prefWidth="182.0">
+            <HBox>
                <children>
-                  <ImageView fitHeight="49.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                  <Label alignment="CENTER" prefHeight="41.0" prefWidth="133.0" style="-fx-background-color: grey; -fx-background-radius: 10;" text="AV MEDIA">
+                     <font>
+                        <Font name="Ubuntu Bold" size="23.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <ImageView fx:id="imgTitleIcon" fitHeight="41.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../asset.img/music.gif" />
+                        <Image url="@../asset.img/mic.gif" />
                      </image>
                   </ImageView>
-                  <HBox>
-                     <children>
-                        <Label alignment="CENTER" prefHeight="41.0" prefWidth="133.0" style="-fx-background-color: grey; -fx-background-radius: 10;" text="AV MEDIA">
-                           <font>
-                              <Font name="Ubuntu Bold" size="23.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Label>
-                        <ImageView fx:id="imgTitleIcon" fitHeight="41.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../asset.img/mic.gif" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
                </children>
-            </StackPane>
+            </HBox>
+            <ImageView fitHeight="102.0" fitWidth="169.0" layoutX="357.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </top>

@@ -1,5 +1,6 @@
 package lk.ijse.dep11.app.controller;
 
+import javafx.animation.ScaleTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -7,10 +8,12 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
@@ -41,7 +44,6 @@ public class MainViewController {
     public Slider slrVolume;
     public Button btnStop;
     public MediaView mvVideo;
-    public ImageView imgBackground;
     public Button btnClose;
     public Button btnBackward;
     public Button btnForward;
@@ -50,10 +52,8 @@ public class MainViewController {
     MediaPlayer audioPlayer;
 
     public void initialize(){
-        imgBackground.setVisible(false);
 
         mvVideo.setViewOrder(1);
-        imgBackground.setViewOrder(2);
 
         lblTitle.setVisible(false);
         Button[] buttons = new Button[]{btnPlay,btnPause,btnStop,btnSlow,btnFast,btnBackward,btnForward};
@@ -71,12 +71,6 @@ public class MainViewController {
             imageView.setPreserveRatio(true);
             buttons[i].setGraphic(imageView);
         }
-
-        DoubleProperty widthProperty = imgBackground.fitWidthProperty();
-        DoubleProperty heightProperty = imgBackground.fitHeightProperty();
-
-        widthProperty.bind(Bindings.selectDouble(imgBackground.sceneProperty(),"width"));
-        heightProperty.bind(Bindings.selectDouble(imgBackground.sceneProperty(),"height"));
 
 
 
@@ -113,7 +107,6 @@ public class MainViewController {
             widthProperty.bind(Bindings.selectDouble(mvVideo.sceneProperty(),"width"));
             heightProperty.bind(Bindings.selectDouble(mvVideo.sceneProperty(),"height"));
 
-            imgBackground.setVisible(false);
 
             videoPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                 @Override
@@ -191,6 +184,36 @@ public class MainViewController {
 //        }
     }
 
+    public void playMouseEnterAnimation(MouseEvent event){
+            if(event.getSource() instanceof Button){
+                Button button = (Button) event.getSource();
+                DropShadow glow = new DropShadow();
+                glow.setColor(Color.DEEPSKYBLUE);
+                glow.setWidth(20);
+                glow.setHeight(20);
+                glow.setRadius(20);
+                button.setEffect(glow);
+                button.setScaleX(1.2);
+                button.setScaleY(1.2);
+                button.setCursor(Cursor.HAND);
+            }
+    }
+
+    public void playMouseExitAnimation(MouseEvent event){
+        if(event.getSource() instanceof Button){
+            Button button = (Button) event.getSource();
+            ScaleTransition scaleT = new ScaleTransition(Duration.millis(200), button);
+            scaleT.setToX(1);
+            scaleT.setToY(1);
+            scaleT.play();
+            button.setEffect(null);
+            button.setScaleX(1);
+            button.setScaleY(1);
+
+
+        }
+    }
+
     public void btnBackwardOnAction(ActionEvent actionEvent) {
         btnBackward.setScaleY(1.2);
         btnBackward.setScaleX(1.2);
@@ -203,91 +226,7 @@ public class MainViewController {
     }
 
 
-    public void btnPlayOnMouseEntered(MouseEvent mouseEvent) {
-        btnPlay.setScaleX(1.2);
-        btnPlay.setScaleY(1.2);
-    }
 
-    public void btnPlayOnMouseExited(MouseEvent mouseEvent) {
-        btnPlay.setScaleY(1);
-        btnPlay.setScaleX(1);
-    }
-
-    public void btnPauseOnMouseEntered(MouseEvent mouseEvent) {
-        btnPause.setScaleX(1.2);
-        btnPause.setScaleY(1.2);
-    }
-    public void btnPauseOnMouseExited(MouseEvent mouseEvent) {
-        btnPause.setScaleX(1);
-        btnPause.setScaleY(1);
-    }
-
-    public void btnStopOnMouseEntered(MouseEvent mouseEvent) {
-        btnStop.setScaleX(1.2);
-        btnStop.setScaleY(1.2);
-    }
-
-    public void btnStopOnMouseExited(MouseEvent mouseEvent) {
-        btnStop.setScaleX(1);
-        btnStop.setScaleY(1);
-    }
-
-    public void btnSlowOnMouseEntered(MouseEvent mouseEvent) {
-        btnSlow.setScaleX(1.2);
-        btnSlow.setScaleY(1.2);
-    }
-
-    public void btnSlowOnMouseExited(MouseEvent mouseEvent) {
-        btnSlow.setScaleX(1);
-        btnSlow.setScaleY(1);
-    }
-
-    public void btnFastOnMouseExited(MouseEvent mouseEvent) {
-        btnFast.setScaleX(1);
-        btnFast.setScaleY(1);
-    }
-
-    public void btnForwardOnMouseEntered(MouseEvent mouseEvent) {
-        btnForward.setScaleX(1.2);
-        btnForward.setScaleX(1.2);
-    }
-    public void btnForwardOnMouseExited(MouseEvent mouseEvent) {
-        btnForward.setScaleY(1);
-        btnForward.setScaleX(1);
-    }
-    public void btnFastOnMouseEntered(MouseEvent mouseEvent) {
-        btnFast.setScaleX(1.2);
-        btnFast.setScaleY(1.2);
-    }
-    public void btnBackwardOnMouseEntered(MouseEvent mouseEvent) {
-        btnBackward.setScaleX(1.2);
-        btnBackward.setScaleY(1.2);
-    }
-    public void btnBackwardOnMouseExited(MouseEvent mouseEvent) {
-        btnBackward.setScaleY(1);
-        btnBackward.setScaleX(1);
-    }
-
-
-    public void slrVolumeOnMouseEntered(MouseEvent mouseEvent) {
-        slrVolume.setScaleX(1.2);
-        slrVolume.setScaleY(1.2);
-    }
-
-    public void slrVolumeOnMouseExited(MouseEvent mouseEvent) {
-        slrVolume.setScaleX(1);
-        slrVolume.setScaleY(1);
-    }
-
-    public void btnBrowseOnMouseEntered(MouseEvent mouseEvent) {
-        btnBrowse.setScaleX(1.2);
-        btnBrowse.setScaleY(1.2);
-    }
-
-    public void btnBrowseOnMouseExited(MouseEvent mouseEvent) {
-        btnBrowse.setScaleY(1);
-        btnBrowse.setScaleX(1);
-    }
 }
 
 

@@ -1,6 +1,7 @@
 package lk.ijse.dep11.app.controller;
 
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -29,7 +30,10 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.time.Clock;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 
 public class MainViewController {
     public BorderPane root;
@@ -48,12 +52,16 @@ public class MainViewController {
     public Button btnBackward;
     public Button btnForward;
     public HBox bxMusic;
+    public ImageView imgBackground;
+    public Label lblStartTime;
+    public Label lblEndTime;
     MediaPlayer videoPlayer;
     MediaPlayer audioPlayer;
 
     public void initialize(){
 
         mvVideo.setViewOrder(1);
+        bxMusic.setVisible(false);
 
         lblTitle.setVisible(false);
         Button[] buttons = new Button[]{btnPlay,btnPause,btnStop,btnSlow,btnFast,btnBackward,btnForward};
@@ -62,8 +70,8 @@ public class MainViewController {
 //        }
 
 //        slrScroller.setBackground(Background.fill(Color.BLUE));
-        String[] icons = new String[]{"asset.img/play1.png","asset.img/pause.png","asset.img/stop.png",
-                "asset.img/SLOW.png","asset.img/FAST.png","asset.img/back10.png","asset.img/forward.png"};
+        String[] icons = new String[]{"asset.img/play.png","asset.img/pause.png","asset.img/stop.png",
+                "asset.img/slow1.png","asset.img/fast1.png","asset.img/back10.png","asset.img/forward.png"};
         for (int i = 0; i < icons.length; i++) {
             Image image = new Image(icons[i]);
             ImageView imageView = new ImageView(image);
@@ -85,7 +93,13 @@ public class MainViewController {
         String[] resultFile = file.getAbsolutePath().split("/");
 
 
-        if(file.getAbsolutePath().matches("^.*\\.(mp4)$")) bxMusic.setVisible(false);
+        if(file.getAbsolutePath().matches("^.*\\.(mp4)$")) {
+            imgBackground.setVisible(false);
+            bxMusic.setVisible(false);
+        }else {
+            imgBackground.setVisible(false);
+            bxMusic.setVisible(true);
+        }
         if(file != null){
             lblTitle.setVisible(true);
 
@@ -112,6 +126,8 @@ public class MainViewController {
                 @Override
                 public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
                     slrScroller.setValue(t1.toSeconds());
+                    lblStartTime.setText(getTimeString(videoPlayer.getCurrentTime().toMillis()));
+                    lblEndTime.setText(getTimeString( videoPlayer.getTotalDuration().toMillis() - videoPlayer.getCurrentTime().toMillis()));
                 }
             });
 
@@ -139,12 +155,38 @@ public class MainViewController {
                 }
             });
 
+            slrScroller.valueProperty().addListener(ov -> {
+                if (slrScroller.isValueChanging()) {
+                    videoPlayer.seek(new Duration(slrScroller.getValue()));
+                }
+            });
+
+
+
         }else {
             btnBrowse.requestFocus();
         }
         btnPlay.fire();
 
     }
+    public static String getTimeString(double millis) {
+        millis /= 1000;
+        String s = formatTime(millis % 60);
+        millis /= 60;
+        String m = formatTime(millis % 60);
+//        millis /= 60;
+//        String h = formatTime(millis % 24);
+        return m + ":" + s;
+    }
+
+    public static String formatTime(double time) {
+        int t = (int) time;
+        if (t > 9) {
+            return String.valueOf(t); }
+        return "0" + t;
+    }
+
+
 
     public void btnPlayOnAction(ActionEvent actionEvent) {
         if(videoPlayer != null) {
@@ -153,6 +195,7 @@ public class MainViewController {
             videoPlayer.play();
             videoPlayer.setRate(1);
         }
+
     }
 
     public void btnPauseOnAction(ActionEvent actionEvent) {

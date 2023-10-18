@@ -55,21 +55,16 @@ public class MainViewController {
     public ImageView imgBackground;
     public Label lblStartTime;
     public Label lblEndTime;
+    public HBox hbox;
     MediaPlayer videoPlayer;
     MediaPlayer audioPlayer;
 
     public void initialize(){
-
         mvVideo.setViewOrder(1);
         bxMusic.setVisible(false);
 
         lblTitle.setVisible(false);
         Button[] buttons = new Button[]{btnPlay,btnPause,btnStop,btnSlow,btnFast,btnBackward,btnForward};
-//        for (Button button : buttons) {
-//            button.setDisable(true);
-//        }
-
-//        slrScroller.setBackground(Background.fill(Color.BLUE));
         String[] icons = new String[]{"asset.img/play.png","asset.img/pause.png","asset.img/stop.png",
                 "asset.img/slow1.png","asset.img/fast1.png","asset.img/back10.png","asset.img/forward.png"};
         for (int i = 0; i < icons.length; i++) {
@@ -80,13 +75,14 @@ public class MainViewController {
             buttons[i].setGraphic(imageView);
         }
 
-
+        imgBackground.fitHeightProperty().bind(root.heightProperty());
+        imgBackground.fitWidthProperty().bind(root.widthProperty());
 
     }
     public void btnBrowseOnAction(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().
-                addAll(new FileChooser.ExtensionFilter("Video File","*.mp4","*.mkv"),
+                addAll(new FileChooser.ExtensionFilter("Video File","*.mp4","*.mkv",".avi"),
                             new FileChooser.ExtensionFilter("Audio File","*.mp3"));
         fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
@@ -100,6 +96,7 @@ public class MainViewController {
             imgBackground.setVisible(false);
             bxMusic.setVisible(true);
         }
+
         if(file != null){
             lblTitle.setVisible(true);
 

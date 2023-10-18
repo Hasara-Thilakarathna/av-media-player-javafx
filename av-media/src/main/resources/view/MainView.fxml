@@ -115,7 +115,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" prefWidth="601.0" style="-fx-background-color: #43829a; -fx-opacity: 1;">
+            <HBox fx:id="hbox" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" prefWidth="601.0" style="-fx-background-color: #43829a; -fx-opacity: 1;">
                <children>
                   <Label fx:id="lblTitle" prefHeight="16.0" prefWidth="105.0" text="Label" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>

@@ -232,6 +232,7 @@ public class MainViewController {
                 glow.setWidth(20);
                 glow.setHeight(20);
                 glow.setRadius(20);
+                button.setCursor(Cursor.HAND);
                 button.setEffect(glow);
                 button.setScaleX(1.2);
                 button.setScaleY(1.2);
@@ -246,6 +247,7 @@ public class MainViewController {
             scaleT.setToX(1);
             scaleT.setToY(1);
             scaleT.play();
+            button.setCursor(Cursor.DEFAULT);
             button.setEffect(null);
             button.setScaleX(1);
             button.setScaleY(1);
